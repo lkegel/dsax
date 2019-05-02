@@ -1,0 +1,17 @@
+"name";"a_lrr";"a";"w";"dist-type";"sd";"Bit";"LUT";"X9"
+"sax";NA;1024;32;"norm";1;320;1048576;NA
+"sax";NA;256;40;"norm";1;320;65536;NA
+"sax";NA;101;48;"norm";1;320;10201;NA
+"sax";NA;10;96;"norm";1;320;100;NA
+"lrrsaxres";32;918;32;"norm";NA;320;1024;842724
+"lrrsaxres";32;234;40;"norm";NA;320;1024;54756
+"lrrsaxres";32;94;48;"norm";NA;320;1024;8836
+"lrrsaxres";32;9;96;"norm";NA;320;1024;81
+"lrrsaxres";128;879;32;"norm";NA;320;16384;772641
+"lrrsaxres";128;226;40;"norm";NA;320;16384;51076
+"lrrsaxres";128;91;48;"norm";NA;320;16384;8281
+"lrrsaxres";128;9;96;"norm";NA;320;16384;81
+"lrrsaxres";1024;824;32;"norm";NA;320;1048576;678976
+"lrrsaxres";1024;215;40;"norm";NA;320;1048576;46225
+"lrrsaxres";1024;87;48;"norm";NA;320;1048576;7569
+"lrrsaxres";1024;9;96;"norm";NA;320;1048576;81

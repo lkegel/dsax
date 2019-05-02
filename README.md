@@ -15,7 +15,7 @@ The directory *Implementation* contains the scripts to carry out the evaluation:
 	 - *approximate_search.R*: linear search (approximate matching)
 	 - *eval.R*: textual and visual evaluation of results
 	 - *run.R*: helper methods for evaluation scripts
-	 - *util.R*: helper methods for file management
+	 - *util.R*: helper methods for file management and data frames
  - *configs*: configuration parameters for representation techniques and dataset parameters
  - *fonts*: font family for plotting
 

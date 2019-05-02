@@ -1,0 +1,8 @@
+"name";"a_seas";"a";"w";"dist-type";"sd";"Bit";"LUT";"X9"
+"sax";NA;10;96;"norm";1;320;100;NA
+"sax";NA;101;48;"norm";1;320;10201;NA
+"sax";NA;256;40;"norm";1;320;65536;NA
+"sax";NA;1024;32;"norm";1;320;1048576;NA
+"seassaxres";9;64;48;"norm";NA;320;81;4096
+"seassaxres";256;32;48;"norm";NA;320;65536;1024
+"seassaxres";256;1024;24;"norm";NA;320;65536;1048576
