@@ -94,7 +94,7 @@ entropy <- function(x) {
 eval_res_symbols_entropy <- function(dataset_configs, method_configs,
                                      dataset_name, name_1, name_2, x_dim,
                                      x_lab, y_lab = "Entropy H",
-                                     xlim_max = NA, ylim_max = NA,
+                                     xlim_max = NA, ylim = NA,
                                      breaks = F, eval_color,
                                      legend.position = "none",
                                      plot.margin = NA,
@@ -144,12 +144,15 @@ eval_res_symbols_entropy <- function(dataset_configs, method_configs,
   }
   p <- ggplot(data=df, aes(x = get(x_dim), y = Entropy, group = Name, colour = Name)) +
     geom_line(size = 0.3) + geom_point(shape = 4) + scale_color + eval_theme + xlab(x_lab) + ylab(y_lab)
-  p <- p + ylim(NA, ylim_max)
   if (breaks)
     p <- p + scale_x_continuous(breaks = sort(unique(df[[x_dim]])), lim = c(NA, xlim_max),
                                 labels = function(x) format(x, big.mark = ",", scientific = FALSE))
   else
     p <- p + xlim(NA, xlim_max)
+  
+  if (all(!is.na(ylim))) {
+    p <- p + ylim(ylim)
+  }
   # top, right, bottom, left
   if (all(legend.position != "none")) {
     p <- p + theme(legend.position = legend.position,
@@ -288,7 +291,8 @@ eval_minmax <- function(dataset_configs, method_configs,
                                        name_val, fct_val, fct_arg, digit = 0,
                                        diff = T, x_off = 0, y_off = 0,
                                        eval_color = NA,
-                                       name_3 = NULL) {
+                                       name_3 = NULL,
+                                       ylim, ybreaks) {
   df <- NA
   for (dataset_config in dataset_configs) {
     for (method_config_na in method_configs) {
@@ -307,11 +311,14 @@ eval_minmax <- function(dataset_configs, method_configs,
     fp <- util_get_filepath(dataset_config, paste0(name_val, "_minmax"), NA, "pdf")
     pdf(fp, width = width_in_2, height = height_in_2, family = font_family)
     p <- ggplot()
-    p <- p + geom_errorbar(data = df, aes(x = Method, ymin = Min, ymax = Max, color = Method))
+    p <- p + geom_errorbar(data = df, aes(x = Method, ymin = Min, ymax = Max, color = Method),
+                           width = 0.5)
     p <- p + scale_fill_gradient2(space ="Lab")
     p <- p + xlab(NULL) + ylab(ylab)
     p <- p + eval_theme + theme(legend.position="none")
     p <- p + scale_color
+    p <- p + scale_y_continuous(breaks = ybreaks, lim = ylim)
+                       
     if (isTRUE(diff) && df[1, "Max"] < df[2, "Max"]) {
       y <- c(as.numeric(df[1, "Max"]), as.numeric(df[2, "Max"]))
       y_text <- min(y) + abs(diff(y)) * 0.5 + y_off
@@ -329,7 +336,8 @@ eval_minmax <- function(dataset_configs, method_configs,
 
 eval_heatmap <- function(dataset_configs, method_configs,
                                         dataset_name, name_1, name_2, dim_x,
-                                        dim_y, lab_x, lab_y, name_val, fct_val, fct_arg = T, ma_2 = NA) {
+                                        dim_y, lab_x, lab_y, name_val, fct_val, fct_arg = T, ma_2 = NA,
+                                        limits) {
   file_name <- paste(name_val, "heatmap", name_1, name_2, dim_x, dim_y, sep = "-")
   file_path <- util_get_top_filepath(file_name, dataset_name, "pdf")
   df_1 <- NA
@@ -364,7 +372,7 @@ eval_heatmap <- function(dataset_configs, method_configs,
   p <- ggplot(data = df, aes(x = get(dim_x), y = get(dim_y), fill = get(name_val)))
   p <- p + geom_tile(aes(height = ifelse(get(dim_y) %in% c(1, 99), 17, 19)))
                      #vjust = get(dim_y))
-  p <- p + scale_fill_gradient2(space ="Lab", low = (colour = "#2b83ba"), high = (colour = "#d7191c"))
+  p <- p + scale_fill_gradient2(space ="Lab", low = (colour = "#d7191c"), high = (colour = "#2b83ba"), limits = limits)
   p <- p + geom_text(aes(label=round(get(name_val) * 100, 2), color = get(name_val) > ma_2), na.rm = T, family = font_family, size = 2)
   p <- p + xlab(lab_x) + ylab(lab_y)
   p <- p + scale_x_continuous(breaks = unique(df[[dim_x]]),
@@ -515,7 +523,7 @@ height_in <- 2.15
 text_size <- 8
 theme_size <- 5/14 * text_size
 font_family <- "CMU" #"CMU Serif"
-eval_color <- c("#2b83ba", "#d7191c", "#fc8003", "#429537")
+eval_color <- c("#2b83ba", "#d7191c", "#fc8003", "#429537", "#606060")
 eval_scale_color <- scale_color_manual(values = eval_color)
 
 fpr <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmr8a.afm")

@@ -3,7 +3,7 @@
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 mc_read_csv <- function(config_name) {
   # suppressPackageStartupMessages(require(openxlsx))
-  fp <- mc_get_path(config_name, "xlsx")
+  fp <- mc_get_path(config_name, "csv")
   stopifnot(file.exists(fp))
   
   tbl <- read.table(fp, T, ";", check.names = F, stringsAsFactors = F)
