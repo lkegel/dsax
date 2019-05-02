@@ -2,7 +2,7 @@
 # Util -------------------------------------------------------------------------
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 mc_read_csv <- function(config_name) {
-  suppressPackageStartupMessages(require(openxlsx))
+  # suppressPackageStartupMessages(require(openxlsx))
   fp <- mc_get_path(config_name, "xlsx")
   stopifnot(file.exists(fp))
   
