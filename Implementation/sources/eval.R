@@ -149,7 +149,6 @@ eval_res_symbols_entropy <- function(dataset_configs, method_configs,
                                 labels = function(x) format(x, big.mark = ",", scientific = FALSE))
   else
     p <- p + xlim(NA, xlim_max)
-  
   if (all(!is.na(ylim))) {
     p <- p + ylim(ylim)
   }
