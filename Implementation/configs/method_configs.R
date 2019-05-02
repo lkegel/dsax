@@ -6,8 +6,8 @@ mc_read_csv <- function(config_name) {
   fp <- mc_get_path(config_name, "xlsx")
   stopifnot(file.exists(fp))
   
-  # tbl <- read.table(fp, T, ";", check.names = F, stringsAsFactors = F)
-  tbl <- read.xlsx(fp, sheet = 1, skipEmptyRows = FALSE)
+  tbl <- read.table(fp, T, ";", check.names = F, stringsAsFactors = F)
+  # tbl <- read.xlsx(fp, sheet = 1, skipEmptyRows = FALSE)
   res <- list()
   for (irow in seq(nrow(tbl))) {
     row <- tbl[irow, ]
