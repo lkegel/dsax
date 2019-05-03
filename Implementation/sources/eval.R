@@ -307,6 +307,7 @@ eval_minmax <- function(dataset_configs, method_configs,
       df <- df1_insert_update_minmax(df, "Method", method_config[[1]], val)
     }
     scale_color <- scale_color_manual(values = eval_color)
+    name_3 <- sub("_", "-", name_3)
     df$Method <- factor(c(name_1, name_2, name_3), levels = c(name_1, name_3, name_2))
     fp <- util_get_filepath(dataset_config, paste0(name_val, "_minmax"), NA, "pdf")
     pdf(fp, width = width_in_2, height = height_in_2, family = font_family)
