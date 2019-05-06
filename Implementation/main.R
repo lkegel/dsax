@@ -256,27 +256,27 @@ run_represent(dc_real_trend, mc_real_trend_a_fix, force = F)
 eval_res_symbols(dc_real_trend, mc_real_trend_a_fix)
 
 # +++ Representation Accuracy --------------------------------------------------
-run_lower_bounding(dc_real_trend, mc_real_trend[1:28], force = F)
-eval_minmax(dc_real_trend, mc_real_trend[1:28], "SAX", "tSAX",
+run_lower_bounding(dc_real_trend, mc_real_trend, force = F)
+eval_minmax(dc_real_trend, mc_real_trend, "SAX", "tSAX",
             "Mean TLB (%)", "lower-bounding", mean, F, digit = 1, diff = F,
             eval_color = eval_color[c(5, 4, 2)],
             name_3 = "1d_SAX",
-            ylim = c(40, 90), ybreaks = seq(40, 90, 10))
+            ylim = c(30, 90), ybreaks = seq(30, 90, 10))
 
 # +++ Exact Matching -----------------------------------------------------------
-run_exact_search(dc_real_trend, mc_real_trend[1:28], force = F)
+run_exact_search(dc_real_trend, mc_real_trend, force = F)
 eval_minmax(dc_real_trend,
-            mc_real_trend[1:28],
+            mc_real_trend,
             "SAX", "tSAX", "Mean PP (%)",
             "exact-search", pruning_power, T, digit = 1,
             eval_color = eval_color[c(5, 4, 2)],
             name_3 = "1d_SAX",
-            ylim = c(70, 100), ybreaks = seq(70, 100, 10))
+            ylim = c(50, 100), ybreaks = seq(50, 100, 10))
 
 # +++ Approximate Matching -----------------------------------------------------
-run_approximate_search(dc_real_trend, mc_real_trend[1:28], force = F)
+run_approximate_search(dc_real_trend, mc_real_trend, force = F)
 eval_minmax(dc_real_trend,
-            mc_real_trend[1:28],
+            mc_real_trend,
             "SAX", "tSAX", "Mean AA (%)",
             "approximate-search", approximate_accuracy, T, digit = 1, diff = F,
             eval_color = eval_color[c(5, 4, 2)],
