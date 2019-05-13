@@ -1,0 +1,6 @@
+Metering dataset
+
+- This dataset have to be included manually from [Irish Social Science Data Archive](www.ucd.ie/issda).
+- It is the dataset "CER Smart Metering Project" of the Commission for Energy Regulation.
+- Select the 5958 time series with 21840 values.
+- Store the dataset in Data/issda_I_5958_T_21840_L_1_48/dataset.rds.
