@@ -149,6 +149,7 @@ eval_res_symbols_entropy <- function(dataset_configs, method_configs,
                                 labels = function(x) format(x, big.mark = ",", scientific = FALSE))
   else
     p <- p + xlim(NA, xlim_max)
+
   if (all(!is.na(ylim))) {
     p <- p + ylim(ylim)
   }
@@ -531,8 +532,7 @@ fpb <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmb8a.afm"
 fpri <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmri8a.afm")
 fpbi <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmbi8a.afm")
 
-CMU <- Type1Font("CMU", c(c(fpr, fpb, fpri, fpbi), "CM_symbol_10.afm"),
-                 encoding = "WinAnsi.enc")
+CMU <- Type1Font("CMU", c(c(fpr, fpb, fpri, fpbi), "CM_symbol_10.afm"))
 if (!("CMU" %in% names(pdfFonts())))
   pdfFonts(CMU=CMU)
 

@@ -9,6 +9,7 @@ exact_search_run <- function(dataset_config, method_config) {
   
   n_raw_c <- c()
   I_query <- seq_along(repr)
+
   tmp <- tempfile()
   print(paste("Exact search temp file: ", tmp))
   cl <- makeCluster(detectCores(), outfile = tmp)

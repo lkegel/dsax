@@ -241,7 +241,7 @@ check_generate_random_walk <- function(dataset_configs) {
       stopifnot(round(sd(x$ts), 6) == 1)
       if (!is.na(ts)) {
         curr <- trend_strength(x$ts, TT)  
-        stopifnot(ts - interval <= curr && curr < ts)
+        stopifnot(ts - interval <= curr && curr < ts + interval)
       } else if (!is.na(ss)) {
         curr <- season_strength(x$ts, TT, L_1)  
         stopifnot(ss - interval <= curr && curr < ss + interval)
