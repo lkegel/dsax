@@ -55,6 +55,9 @@ mc_get_path <- function(config_name, ext = "csv") {
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 mc_rw_season_a_fix <- mc_read_csv("mc_rw_season_a_fix")
 mc_rw_season <- mc_read_csv("mc_rw_season")
+mc_rw_season_large_10 <- mc_read_csv("mc_rw_season_large_10")
+mc_rw_season_large_50 <- mc_read_csv("mc_rw_season_large_50")
+mc_rw_season_large_90 <- mc_read_csv("mc_rw_season_large_90")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # RW Trend ---------------------------------------------------------------------

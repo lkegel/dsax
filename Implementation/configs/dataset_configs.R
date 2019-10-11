@@ -156,6 +156,171 @@ dc_rw_season <- list(
 )
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Season RW Large --------------------------------------------------------------
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+dc_rw_season_large_10 <-  list(
+  list("random-walk",
+       I                 = 130208,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 62.62
+  ),
+  list("random-walk",
+       I                 = 1302083,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 62.62
+  ),
+  list("random-walk",
+       I                 = 6510417,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 62.62
+  ),
+  list("random-walk",
+       I                 = 13020833,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 62.62
+  )
+)
+
+dc_rw_season_large_10_u <-  list(
+  list("random-walk",
+       I                 = 130208,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 10
+  ),
+  list("random-walk",
+       I                 = 1302083,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 10
+  ),
+  list("random-walk",
+       I                 = 6510417,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 10
+  ),
+  list("random-walk",
+       I                 = 13020833,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 10
+  )
+)
+
+dc_rw_season_large_50 <-  list(
+  list("random-walk",
+       I                 = 130208,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 89.38
+  ),
+  list("random-walk",
+       I                 = 1302083,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 89.38
+  ),
+  list("random-walk",
+       I                 = 6510417,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 89.38
+  ),
+  list("random-walk",
+       I                 = 13020833,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 89.38
+  )
+)
+
+dc_rw_season_large_50_u <-  list(
+  list("random-walk",
+       I                 = 130208,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 50
+  ),
+  list("random-walk",
+       I                 = 1302083,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 50
+  ),
+  list("random-walk",
+       I                 = 6510417,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 50
+  ),
+  list("random-walk",
+       I                 = 13020833,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 50
+  )
+)
+
+dc_rw_season_large_90 <-  list(
+  list("random-walk",
+       I                 = 130208,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 97.36
+  ),
+  list("random-walk",
+       I                 = 1302083,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 97.36
+  ),
+  list("random-walk",
+       I                 = 6510417,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 97.36
+  ),
+  list("random-walk",
+       I                 = 13020833,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 97.36
+  )
+)
+
+dc_rw_season_large_90_u <-  list(
+  list("random-walk",
+       I                 = 130208,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 90
+  ),
+  list("random-walk",
+       I                 = 1302083,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 90
+  ),
+  list("random-walk",
+       I                 = 6510417,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 90
+  ),
+  list("random-walk",
+       I                 = 13020833,
+       T                 = 960,
+       L_1               = 10,
+       `season-strength` = 90
+  )
+)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Trend RW -------------------------------------------------------------------
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 dc_rw_trend <- list(

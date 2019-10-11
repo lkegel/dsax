@@ -141,7 +141,7 @@ dataset_acf1 <- function(dataset_config, component) {
     acf1(res)})))
 }
 
-generate_random_walk <- function(dataset_configs, force = F) {
+generate_random_walk <- function(dataset_configs, force = F, dat = F, opt = F) {
   for (dataset_config in dataset_configs) {
     if (!force && util_exists(dataset_config, "dataset")) {
       next
@@ -149,6 +149,9 @@ generate_random_walk <- function(dataset_configs, force = F) {
     dataset <- list()
     I <- dataset_config$I
     TT <- dataset_config$T
+    bucket_size <- 1000
+    dat_data <- rep(0.0, bucket_size * TT)
+    dat_strength <- rep(0.0, bucket_size)
     ts <- NA
     if ("trend-strength" %in% names(dataset_config)) {
       strength <- ts <- dataset_config$`trend-strength` / 100
@@ -168,19 +171,44 @@ generate_random_walk <- function(dataset_configs, force = F) {
       interval <- 0.005
     }
     
-    idx <- 1
+    if (dat) {
+      fp_data <- util_get_filepath(dataset_config, "dataset", subdir = NA,
+                                   ext = "dat")
+      fp_strength <- util_get_filepath(dataset_config, "strength",
+                                       subdir = NA, ext = "dat")
+    }
+      
+    
+    idx <- 0
     cnt.learn <- 0
     max.learn <- 50
-    while(length(dataset) != I) {
+    while(idx < I) {
       x <- create_series(TT, L_1, ts, ss, acf1)
       if (!is.na(ts))   { curr <- trend_strength(x, TT) }
       if (!is.na(ss))   { curr <- season_strength(x, TT, L_1) }
       if (!is.na(acf1)) { curr <- acf1(x) }
       
-      if (curr >= strength - interval && curr <= strength + interval) {
-        dataset[[idx]] <- list(name = paste0("N", idx), ts = x)
-        print(idx)
+      if (dat) {
         idx <- idx + 1
+        dat_idx <- ((idx - 1) %% bucket_size) + 1
+        dat_data[((dat_idx - 1) * TT + 1):(dat_idx * TT)] <- x
+        dat_strength[dat_idx] <- curr
+        if (idx %% bucket_size == 0) {
+          print(idx)
+          util_write_c(fp_data, dat_data, append = T)
+          util_write_c(fp_strength, dat_strength, append = T)
+        } else if (idx == I) {
+          print(idx)
+          util_write_c(fp_data, dat_data[1:(dat_idx * TT)], append = T)
+          util_write_c(fp_strength, dat_strength[1:dat_idx], append = T)
+        }
+        if (opt) {
+          dataset[[idx]] <- list(name = paste0("N", idx), ts = x)
+        }
+      } else if (curr >= strength - interval && curr <= strength + interval) {
+        idx <- idx + 1
+        print(idx)
+        dataset[[idx]] <- list(name = paste0("N", idx), ts = x)
         cnt.learn <- 0
       } else if (cnt.learn >= max.learn) {
         if (curr < strength - 0.01) {
@@ -202,15 +230,17 @@ generate_random_walk <- function(dataset_configs, force = F) {
           if (!is.na(ss) > 0) ss <- ss * 0.9
           if (!is.na(ts) > 0) ts <- ts * 0.9
         }
-        print(paste("Adapt strength", ss, ts))
+        # print(paste("Adapt strength", ss, ts))
         cnt.learn <- 0
       } else {
         cnt.learn <- cnt.learn + 1
       }
     }
-    names(dataset) <- unlist(lapply(dataset, function(x) x$name))
-
-    util_save(dataset_config, "dataset", dataset)
+    if (!dat || opt) {
+      names(dataset) <- unlist(lapply(dataset, function(x) x$name))
+      
+      util_save(dataset_config, "dataset", dataset)  
+    }
   }
 }
 

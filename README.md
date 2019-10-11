@@ -1,5 +1,5 @@
-# Season- and Trend-aware Symbolic Approximation for Efficient Time Series Matching (Supporting Material)
-Time series matching is an important prerequisite of many data-mining tasks and yet it is a challenging problem. A time series is a high-dimensional data type whose representation is storage- and whose comparison is time-consuming. Among the representation techniques that tackle these challenges, the symbolic aggregate approximation is of particular interest. This technique reduces a time series in a low-dimensional space by segmenting it and discretizing each segment into a small alphabet of symbols. However, it ignores the deterministic behavior of a time series such as, e.g., its cyclical repeated season or its trend component that affects all segments and that leads to a distortion of the symbolic distribution. With this in mind, we present a season- and a trend-aware symbolic approximation. Not only do they improve a representation's symbolic distribution, they also increase the representation accuracy while keeping the same representation size. Thus, they provide a more efficient time series matching.
+# Season- and Trend-aware Symbolic Approximation for Accurate and Efficient Time Series Matching (Supporting Material)
+Processing and analyzing time series datasets have become a central issue in many domains requiring data management systems to support time series as a data type natively. A crucial prerequisite of these systems is time series matching, yet it is a challenging problem. A time series is a high-dimensional data type, its representation is storage-, and its comparison is time-consuming. Among the representation techniques that tackle these challenges, the symbolic aggregate approximation (SAX) is of particular interest. This technique reduces a time series in a low-dimensional space by segmenting it and discretizing each segment into a small alphabet of symbols. However, SAX ignores the deterministic behavior of a time series such as its cyclical repeated season or its trend component affecting all segments and leading to a distortion of the symbolic distribution. In this paper, we present a season- and a trend-aware symbolic approximation. We show that they improve a representation's symbolic distribution and increase the representation accuracy without increasing the representation size. Most importantly, they enable a more efficient time series matching by providing a match up to two orders of magnitude faster than SAX.
 
 ## Scripts
 The directory *Implementation* contains the scripts to carry out the evaluation:
@@ -17,7 +17,7 @@ The directory *Implementation* contains the scripts to carry out the evaluation:
 	 - *run.R*: helper methods for evaluation scripts
 	 - *util.R*: helper methods for file management and data frames
  - *configs*: configuration parameters for representation techniques and dataset parameters
- - *fonts*: font family for plotting
+ - *c*: sources for efficiency evaluation
 
 Required packages:
 
@@ -30,6 +30,8 @@ Required packages:
  - directlabels
  - latticeExtra
  - grDevices
+ - extrafont
+ - Rttf2pt1 and ghostscript 9.27 must be installed for plots with the correct fonts
 
 
 ## Datasets
@@ -42,13 +44,16 @@ The directory *Data* contains the datasets together with representations, interm
 	 - Select the 5958 time series with 21840 values.
 	 - Store the dataset in Data/issda_I_5958_T_21840_L_1_48/dataset.rds.
  - The *Economy* dataset is provided under Data/m4_I_6400_T_300/dataset.rds.
+ - *Season (Large)* has to be generated.
 
 ## Representation Techniques
 
-The *idxrepr* package contains the representation techniques: [https://github.com/dsaa2019-anonuser/idxrepr](https://github.com/dsaa2019-anonuser/idxrepr). Install this package to run the evaluation.
+The *idxrepr* package contains the representation techniques: [https://github.com/lkegel/idxrepr](https://github.com/lkegel/idxrepr). Install this package to run the evaluation.
 
 ## Software Environment
-The software has been tested under
+The accuracy experiments have been tested under
 
  - Windows 10 with R 3.4.4 and Rtools 3.4.0.1964
  - Linux Ubuntu 14.04.6 LTS with R 3.4.4 and gcc 4.8.4
+
+The effiency experiments are only runnable under Windows because they depend on Windows I/O functions.

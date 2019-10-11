@@ -5,6 +5,8 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(directlabels))
 suppressPackageStartupMessages(library(latticeExtra))
 suppressPackageStartupMessages(library(grDevices))
+suppressPackageStartupMessages(library(extrafont))
+suppressPackageStartupMessages(library(Rttf2pt1))
 
 eval_loss <- function(dataset_configs, mc_na) {
   for (dataset_config in dataset_configs) {
@@ -166,6 +168,8 @@ eval_res_symbols_entropy <- function(dataset_configs, method_configs,
 
   print(p)
   dev.off()
+  
+  embed_fonts(file_path, options = "-dCompatibilityLevel=1.4")
 }
 
 eval_res_symbols_sd <- function(dataset_configs, method_configs,
@@ -332,6 +336,8 @@ eval_minmax <- function(dataset_configs, method_configs,
     }
     print(p)
     dev.off()
+    
+    embed_fonts(fp, options = "-dCompatibilityLevel=1.4")
   }
 }
 
@@ -385,6 +391,8 @@ eval_heatmap <- function(dataset_configs, method_configs,
   print(p)
   dev.off()
 
+  embed_fonts(file_path, options = "-dCompatibilityLevel=1.4")
+  
   print(df)
 }
 
@@ -463,6 +471,60 @@ eval_exact_search_runtime <- function(dataset_configs, method_configs, csv = F) 
   }
 }
 
+eval_exact_search_runtime_c <- function(
+  dataset_configs,
+  method_configs,
+  dataset_name,
+  dim_x,
+  lab_x,
+  limits,
+  disk
+) {
+  dt_mean <- data.table(Name = character(), Class = character(),
+                        Mean = numeric(), N = integer())
+  dt_mima <- data.table(Name = character(), Min = numeric(), Max = numeric())
+  for (dataset_config in dataset_configs) {
+    I <- dataset_config$I
+    dataset_config_root <- dataset_config
+    dataset_config_root$I <- 13020833
+    if (disk == "SSD") {
+      path <- file.path(Sys.getenv("EDBT2020"), util_get_path(dataset_config_root))
+    } else if (disk == "HDD") {
+      path <- file.path(Sys.getenv("EDBT2020EXT"), util_get_path(dataset_config_root))
+    } else stop("N/A")
+    
+    for (method_config_na in method_configs) {
+      if (method_config_na[[1]] != "ed") {
+        method_config <- method_derive(dataset_config, method_config_na)
+        fn <- intermediate_file_name(method_config)
+        fn_es <- paste(fn, I, "csv", sep = ".")
+      } else {
+        fn_es <- paste("ed", I, "csv", sep= ".")
+      }
+      fp <- file.path(path, fn_es)
+      df <- read.table(fp, header = T, sep = ";", quote = "",
+                       stringsAsFactors = F)
+      dt_mean <- rbindlist(list(dt_mean, list(Name = method_config_na[[1]],
+                                              Class = "Repr",
+                                              Mean = mean(df$el_repr),
+                                              N = nrow(df))))
+      dt_mean <- rbindlist(list(dt_mean, list(Name = method_config_na[[1]],
+                                              Class = "Raw",
+                                              Mean = mean(df$el_raw),
+                                              N = nrow(df))))
+      
+      dt_mima <- rbindlist(list(dt_mima, list(Name = method_config_na[[1]],
+                                              Min = min(df$el_repr + df$el_raw),
+                                              Max = max(df$el_repr + df$el_raw))))
+    }
+  }
+
+  dt_mean$Name <- as.factor(dt_mean$Name)
+  dt_mean$Class <- as.factor(dt_mean$Class)
+  dt_mima$Name <- as.factor(dt_mima$Name)
+  print(dt_mean)
+}
+
 pruning_power <- function(exact_search,
                           dataset_config,
                           method_config) {
@@ -523,24 +585,11 @@ width_in <- 3.48
 height_in <- 2.15
 text_size <- 8
 theme_size <- 5/14 * text_size
-font_family <- "CMU" #"CMU Serif"
+font_family <- "Linux Libertine"
+# run once font_import()
+# run once loadfonts() and make sure Linux Libertine is loaded
 eval_color <- c("#2b83ba", "#d7191c", "#fc8003", "#429537", "#606060")
 eval_scale_color <- scale_color_manual(values = eval_color)
-
-fpr <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmr8a.afm")
-fpb <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmb8a.afm")
-fpri <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmri8a.afm")
-fpbi <- file.path(Sys.getenv("DSAA2019"), "Implementation", "fonts", "ptmbi8a.afm")
-
-CMU <- Type1Font("CMU", c(c(fpr, fpb, fpri, fpbi), "CM_symbol_10.afm"))
-if (!("CMU" %in% names(pdfFonts())))
-  pdfFonts(CMU=CMU)
-
-# serif_file <- file.path("Implementation/fonts/cmunrm.ttf")
-# myfonts <- fonts <- list(serif = list(plain = serif_file))
-# embedFonts(serif_file, format, outfile = file,
-#            fontpaths = character(), options = character())
-
 
 eval_theme <- theme(
   line = element_line(size = 0.3),

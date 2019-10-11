@@ -32,35 +32,39 @@ prepare_exact_search_runtime_dataset <- function(dataset_config) {
   print(paste("Dataset exported: ", fp))
 }
 
-prepare_exact_search_runtime_method <- function(dataset_config, method_config_na) {
-  method_config <- method_derive(dataset_config, method_config_na)
-  method <- intermediate_read(dataset_config, method_config, "method")
-  repr <- intermediate_read(dataset_config, method_config, "represent")
-
-  if (class(method) %in% "sax") {
-    lut <- method$lut
-    file_name <- intermediate_file_name(method_config)
-    ext <- ".tbl"
-    prepare_exact_search_runtime_lut(dataset_config, lut, file_name, ext)
-  } else if (class(method) %in% "seassaxres") {
-    lut <- method$sax$lut
-    file_name <- intermediate_file_name(method_config)
-    ext <- "res.tbl"
-    prepare_exact_search_runtime_lut(dataset_config, lut, file_name, ext)
-    
-    lut <- method$seassax$sax$lut
-    file_name <- intermediate_file_name(method_config)
-    ext <- "seas.tbl"
-    prepare_exact_search_runtime_lut(dataset_config, lut, file_name, ext)
-  } else {
-    stop("n/a")
+prepare_exact_search_runtime_method <- function(dataset_configs, method_configs) {
+  for (dataset_config in dataset_configs) {
+    for (method_config_na in method_configs) {
+      method_config <- method_derive(dataset_config, method_config_na)
+      method <- intermediate_read(dataset_config, method_config, "method")
+      # repr <- intermediate_read(dataset_config, method_config, "represent")
+      
+      if (class(method) %in% "sax") {
+        lut <- method$lut
+        file_name <- intermediate_file_name(method_config)
+        ext <- "dat"
+        prepare_exact_search_runtime_lut(dataset_config, lut, file_name, ext)
+      } else if (class(method) %in% "seassaxres") {
+        lut <- method$sax$lut
+        file_name <- intermediate_file_name(method_config)
+        ext <- "res.dat"
+        prepare_exact_search_runtime_lut(dataset_config, lut, file_name, ext)
+        
+        lut <- method$seassax$sax$lut
+        file_name <- intermediate_file_name(method_config)
+        ext <- "det.dat"
+        prepare_exact_search_runtime_lut(dataset_config, lut, file_name, ext)
+      } else {
+        stop("n/a")
+      }
+    }
   }
 }
 
 prepare_exact_search_runtime_lut <- function(dataset_config, lut, file_name, ext) {
   dat <- as.vector(lut)
   fp <- util_get_filepath(dataset_config, file_name, "method", ext)
-  write.table(dat, fp, col.names = F, row.names = F, dec = ".")
+  util_write_c(fp, dat, type = "float8", append = F)
   print(paste("Lookup table exported: ", fp))
 }
 

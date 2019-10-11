@@ -14,11 +14,33 @@ util_save <- function(config, file_name, data, subdir = NA) {
   saveRDS(data, file_path)
 }
 
+util_write_c <- function(file_path, data, type = "float8", append = T) {
+  # write(data, file_path, ncolumns = 1, append = T)
+  if (type == "float8") {
+    idxrepr::write_float8(data, file_path, length(data), append)  
+  } else if (type == "uint1") {
+    idxrepr::write_uint1(data, file_path, length(data), append)
+  } else if (type == "uint2") {
+    idxrepr::write_uint2(data, file_path, length(data), append)
+  } else stop("N/A")
+}
+
+util_read_c <- function(file_path, size, type = "float8", pos1 = 0, pos2 = 1) {
+  if (type == "float8") {
+    result <- idxrepr::read_float8(file_path, size, pos1, pos2) 
+  } else if (type == "uint1") {
+    result <- idxrepr::read_uint1(file_path, size, pos1, pos2)
+  } else if (type == "uint2") {
+    result <- idxrepr::read_uint2(file_path, size, pos1, pos2)
+  } else stop("N/A")
+}
+
 util_get_filepath <- function(config, file_name, subdir = NA, ext = "rds") {
   path <- util_get_path(config)
   if (!is.na(subdir)) {
     path <- file.path(path, subdir)
   }
+  dir.create(path, showWarnings = F, recursive = T)
   file_path <- file.path(path, paste0(file_name, ".", ext))
 
   return(file_path)
