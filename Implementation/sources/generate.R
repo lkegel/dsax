@@ -236,6 +236,7 @@ generate_random_walk <- function(dataset_configs, force = F, dat = F, opt = F) {
         cnt.learn <- cnt.learn + 1
       }
     }
+
     if (!dat || opt) {
       names(dataset) <- unlist(lapply(dataset, function(x) x$name))
       

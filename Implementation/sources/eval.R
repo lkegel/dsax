@@ -585,7 +585,12 @@ width_in <- 3.48
 height_in <- 2.15
 text_size <- 8
 theme_size <- 5/14 * text_size
-font_family <- "Linux Libertine"
+if ("Linux Libertine" %in% fonts()) {
+  font_family <- "Linux Libertine"
+} else {
+  font_family <- "sans"
+}
+
 # run once font_import()
 # run once loadfonts() and make sure Linux Libertine is loaded
 eval_color <- c("#2b83ba", "#d7191c", "#fc8003", "#429537", "#606060")
